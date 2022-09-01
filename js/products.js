@@ -9,7 +9,6 @@ async function getData(url) {
     const response = await fetch(url);
     const data = await response.json();
     data_url = data;
-}
 
 document.addEventListener('DOMContentLoaded', async function() {
   await getData(PRODUCTS_URL + localStorage.getItem('catID') + EXT_TYPE);
@@ -110,3 +109,4 @@ document.getElementById("rangeFilterCount").addEventListener("click", function()
 
   getHTML(data_url.products);
 });   
+
