@@ -2,13 +2,13 @@ const URL_AUTOS = "https://japceibal.github.io/emercado-api/cats_products/101.js
 
 var data_url; 
 
-// Forma de obtener los datos de una url con fetch.
+
 async function getData(url) {
     const response = await fetch(url);
     const data = await response.json();
     data_url = data;
 }
-// Bucle que completa el html con los datos de products de cada auto.
+
 document.addEventListener('DOMContentLoaded', async function () {
     await getData(URL_AUTOS);
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         
 });
 
-// Funcion que completa los campos entre {} con el parametro que le pasemos entre (). 
+
 function getHTML(products){
     return `
      <div class="col-12" id="${products.id}">
