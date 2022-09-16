@@ -1,9 +1,13 @@
 var list = document.getElementById('products');
 var nombre = document.getElementById('nombreProducto');
-var valor = localStorage.getItem('catID');
 var data_url; 
 let minCount = undefined;
 let maxCount = undefined;
+
+function setID(id) {
+  localStorage.setItem("id", id);
+  window.location = "product-info.html"
+}
 
 async function getData(url) {
     const response = await fetch(url);
@@ -33,7 +37,7 @@ function getHTML(array){
         ((maxCount == undefined) || ((liproducts.cost) <= maxCount))){
      
     html += `
-     <div class="col-12" id="${liproducts.id}">
+     <div class="col-12" onclick="setID(${liproducts.id})">
        <div class="row shadow overflow-hiden mb-4">
          <div class="col-4 p-0">
               <img class="img-fluid" src="${liproducts.image}">
