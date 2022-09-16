@@ -37,9 +37,47 @@
     </div>
   </nav>
   <main>
+    <div class="container" id="lugar">
+
+    </div>  
+    <div class="container" id="comentarios">
+      <h3>Comentarios</h3>
+
+    </div>
+
     <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+      <hr>
+      <form action="">
+        <h3>Comentar</h3>
+        <div>
+          <p>Tu opinión:</p>
+          <textarea id="opinion" cols="60" rows="3"></textarea>
+        </div>
+        <div>
+          <p>Tu puntuación:</p>
+          <select name="puntuacion" id="puntuacion" style="width: 150px; height: 30px;">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+        </div>
+      </form>
+      <div class="pt-3">
+        <button class="btn btn-primary" id="boton">Enviar</button>
+      </div>
+    </div>
+    
+    <div class="container">
+      <hr>
+      <div>
+        <h5>Productos relacionados</h5>
+        <div class="row">
+          <div class="col-5 d-flex" id="productos_relacionados">
+          
+          </div>
+        </div> 
       </div>
     </div>
   </main>
