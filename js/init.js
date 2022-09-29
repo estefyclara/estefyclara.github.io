@@ -41,6 +41,7 @@ let getJSONData = function(url){
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  if(localStorage.getItem('Email') !== null){
   document.getElementById('nombreUsuario').innerHTML = `
   <div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -53,4 +54,5 @@ document.addEventListener('DOMContentLoaded', function() {
   </ul>
   </div>
   `;
+  }
 }); 
