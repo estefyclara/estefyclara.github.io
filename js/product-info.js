@@ -33,17 +33,32 @@ function getHTML(dato){
         <p><b>Categoria: </b>${dato.category}</p>
         <p><b>Cantidad de vendidos: </b>${dato.soldCount}</p>
         <p><b>Imagenes ilustradas:</b></p>
-        <div class="row">
-        <div class="col-3 d-flex">
-         <img class="img-fluid m-1" src="${dato.images[0]}">
-         <img class="img-fluid m-1" src="${dato.images[1]}">
-         <img class="img-fluid m-1" src="${dato.images[2]}">
-         <img class="img-fluid m-1" src="${dato.images[3]}">
+        <div id="carouselExampleIndicators" class="carousel carousel-dark carousel-fade slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="${dato.images[0]}" class="d-block img-fluid rounded mx-auto">
         </div>
+        <div class="carousel-item">
+          <img src="${dato.images[1]}" class="d-block img-fluid rounded mx-auto">
         </div>
+        <div class="carousel-item">
+          <img src="${dato.images[2]}" class="d-block img-fluid rounded mx-auto">
         </div>
-        <hr>
+        <div class="carousel-item">
+          <img src="${dato.images[3]}" class="d-block img-fluid rounded mx-auto">
+        </div>
       </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Siguiente</span>
+        </button>
+      </div>
+     </div>
+    <hr>
    `   
 }   
 
@@ -59,9 +74,9 @@ function getCOM(coment){
 
 function getPR(dato) {
   return `
-    <div class="m-1" onclick="setIDpoductsrelated(${dato.id})">
-     <img class="img-fluid" src="${dato.image}">
-     <p><b>${dato.name}</b></p>
+    <div class="m-1 border p-2 shadow" onclick="setIDpoductsrelated(${dato.id})">
+     <img class="img-fluid pb-1" src="${dato.image}">
+     <p class="text-center">${dato.name}</p>
    </div>
   `
 }

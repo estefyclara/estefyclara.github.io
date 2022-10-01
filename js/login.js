@@ -12,4 +12,5 @@ document.addEventListener('DOMContentLoaded', function() {
           (window.location.href = "home.html") && (localStorage.setItem('Email', email)); 
       }
     }) 
+    localStorage.removeItem('Email');
   });

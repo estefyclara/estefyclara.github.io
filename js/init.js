@@ -41,5 +41,18 @@ let getJSONData = function(url){
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('nombreUsuario').innerHTML = `<a class="nav-link" href="my-profile.html">${localStorage.getItem('Email')}</a>`;
+  if(localStorage.getItem('Email') !== null){
+  document.getElementById('nombreUsuario').innerHTML = `
+  <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    ${localStorage.getItem('Email')}
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" href="cart.html">Mi carrito</a></li>
+    <li><a class="dropdown-item" href="my-profile.html">Mi perfil</a></li>
+    <li><a class="dropdown-item" href="index.html">Cerrar sesión</a></li>
+  </ul>
+  </div>
+  `;
+  }
 }); 

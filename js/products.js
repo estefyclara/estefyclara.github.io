@@ -1,6 +1,7 @@
 var list = document.getElementById('products');
 var nombre = document.getElementById('nombreProducto');
 var data_url; 
+var buscador = document.getElementById('buscador');
 let minCount = undefined;
 let maxCount = undefined;
 
@@ -115,3 +116,19 @@ document.getElementById("rangeFilterCount").addEventListener("click", function()
   getHTML(data_url.products);
 });   
 
+buscador.addEventListener('input', function() {
+
+  let texto = buscador.value.toLowerCase();
+  let filtro = [];
+
+  data_url.products.forEach(element => {
+    let name = element.name.toLowerCase();
+    let description = element.description.toLowerCase();
+    if(name.includes(texto) || description.includes(texto)){
+      filtro.push(element)
+    } else {
+      list.innerHTML = `<b>Producto no encontrado...</b>`
+    }
+  })
+  getHTML(filtro);
+});
