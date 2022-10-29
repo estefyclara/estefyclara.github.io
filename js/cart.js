@@ -110,6 +110,7 @@ document.getElementById('cerrar').addEventListener('click', () => {
 
 document.getElementById('finalizar_compra').addEventListener('click', function (event) {
     event.preventDefault()
+    
     const calle = document.getElementById('calle');
     const numero = document.getElementById('numero');
     const esquina = document.getElementById('esquina');
@@ -158,30 +159,27 @@ document.getElementById('finalizar_compra').addEventListener('click', function (
         };
     }
 
-    if (envio.textContent == '' && resultado_envio.textContent == '') {
-        document.getElementById('validar').classList.add('is-invalid');
-    };
-
     const pre = document.getElementById('premium');
     const exp = document.getElementById('express');
     const sta = document.getElementById('standard');
 
+    if (envio.textContent == '' && resultado_envio.textContent == '') {
+        document.getElementById('validar').classList.add('is-invalid');
+    };
+
     pre.addEventListener('click', () => {
         if (pre.checked != false) {
             document.getElementById('validar').classList.remove('is-invalid');
-            document.getElementById('validar').classList.add('is-valid');
         };
     });
     exp.addEventListener('click', () => {
         if (exp.checked != false) {
             document.getElementById('validar').classList.remove('is-invalid');
-            document.getElementById('validar').classList.add('is-valid');
         };
     });
     sta.addEventListener('click', () => {
         if (sta.checked != false) {
             document.getElementById('validar').classList.remove('is-invalid');
-            document.getElementById('validar').classList.add('is-valid');
         };
     });
 
