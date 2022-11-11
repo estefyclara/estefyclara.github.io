@@ -10,12 +10,14 @@ function setID(id) {
   window.location = "product-info.html"
 }
 
+// Función que trae los datos de la url 
 async function getData(url) {
     const response = await fetch(url);
     const data = await response.json();
     data_url = data;
 };    
 
+// Traigo los datos de la lista de productos y los inserto en el HTML 
 document.addEventListener('DOMContentLoaded', async function() {
   await getData(PRODUCTS_URL + localStorage.getItem('catID') + EXT_TYPE);
 
@@ -23,6 +25,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   getName(data_url);
 });  
 
+ // Función que hace dinámico el nombre de la lista de productos
 function getName(array) { 
   nombre.innerHTML = ` <h2>Productos</h2>
     <p style="font-size: 20px;">Verás aquí todos los productos de la categoria ${array.catName}</p> `;
@@ -59,6 +62,7 @@ function getHTML(array){
     list.innerHTML = html;
 }};
 
+// Función que ordena de forma descendente en función del precio
 document.getElementById('sortDesc').addEventListener('click', function() {
 
     let result = [];
@@ -71,7 +75,7 @@ document.getElementById('sortDesc').addEventListener('click', function() {
     getHTML(result);
 });
 
-
+// Función que ordena de forma ascendente en función del precio
 document.getElementById('sortAsc').addEventListener('click', function() {
 
     let result = [];
@@ -85,6 +89,8 @@ document.getElementById('sortAsc').addEventListener('click', function() {
     
 });
 
+// Función que ordena de forma descendente en función de la relevancia 
+// tomando en cuenta la cantidad de artículos vendidos
 document.getElementById('sortByRelevance').addEventListener('click', function() {
 
     let result = [];
@@ -98,6 +104,7 @@ document.getElementById('sortByRelevance').addEventListener('click', function() 
 
 }); 
 
+// Función que limpia los campos que filtran según precio 
 document.getElementById("clearRangeFilter").addEventListener("click", function(){
   document.getElementById("rangeFilterCountMin").value = "";
   document.getElementById("rangeFilterCountMax").value = "";
@@ -108,7 +115,7 @@ document.getElementById("clearRangeFilter").addEventListener("click", function()
   getHTML(data_url.products);
 });
 
-
+// Función que filtra según rango de precio
 document.getElementById("rangeFilterCount").addEventListener("click", function(){
   minCount = document.getElementById("rangeFilterCountMin").value;
   maxCount = document.getElementById("rangeFilterCountMax").value;
@@ -116,6 +123,7 @@ document.getElementById("rangeFilterCount").addEventListener("click", function()
   getHTML(data_url.products);
 });   
 
+// Función que busca según coincidencia en título y descripción
 buscador.addEventListener('input', function() {
 
   let texto = buscador.value.toLowerCase();
