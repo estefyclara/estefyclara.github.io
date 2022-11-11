@@ -1,7 +1,7 @@
 const URL = CART_INFO_URL + 25801 + EXT_TYPE;
 const lugar_HTML = document.getElementById('tabla');
-const lugar_subtotal = document.getElementById('subtotal');
-const envio = document.getElementById('envio');
+const lugar_subtotal_general = document.getElementById('subtotal');
+const peso_envio = document.getElementById('envio');
 const resultado_envio = document.getElementById('resultado_envio');
 const total = document.getElementById('total');
 let signo_peso;
@@ -13,10 +13,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     signo_peso = peso;
 
     lugar_HTML.innerHTML = getHTML(info_url.data.articles[0]);
-    lugar_subtotal.innerHTML = signo_peso + calculoSubtotal();
-    total.innerHTML = lugar_subtotal.textContent;
+    lugar_subtotal_general.innerHTML = signo_peso + calculoSubtotal();
+    total.innerHTML = lugar_subtotal_general.textContent;
 });
 
+// Completo el html del producto que se encuentra en el carrito 
 function getHTML(dato) {
     return `
     <tr>
@@ -24,20 +25,21 @@ function getHTML(dato) {
         <td>${dato.name}</td>
         <td>${dato.currency} ${dato.unitCost}</td>
         <td class="col-3"><input id="valor" type="number" class="col-3" value="${dato.count}" min="1" oninput="calculoSubtotal()" onclick="calculoTotal()"></td>
-        <td><b>${dato.currency}</b><b id="lugar_cuenta">${dato.unitCost * dato.count}</b></td>
+        <td><b>${dato.currency}</b><b id="lugar_subtotal_producto">${dato.unitCost * dato.count}</b></td>
     </tr>
     `
 };
 
+// Funcion que utilizo para calcular el subtotal específico y general 
 function calculoSubtotal() {
     const valor = document.getElementById('valor');
-    const lugar_cuenta = document.getElementById('lugar_cuenta');
+    const lugar_subtotal_producto = document.getElementById('lugar_subtotal_producto');
 
     let valor_input = valor.value;
     let unidad = info_url.data.articles[0].unitCost;
 
-    lugar_cuenta.innerHTML = valor_input * unidad;
-    lugar_subtotal.innerHTML = signo_peso + (valor_input * unidad);
+    lugar_subtotal_producto.innerHTML = valor_input * unidad;
+    lugar_subtotal_general.innerHTML = signo_peso + (valor_input * unidad);
 
     return valor_input * unidad;
 };
@@ -48,12 +50,15 @@ botonesEnvio.forEach(boton =>{
     boton.addEventListener('click', () => {
         let resultado = calculoEnvios(boton.id);
 
-        envio.innerHTML = signo_peso;
+        // Inserto el resultado del envío, según el tipo de envío seleccionado
+        peso_envio.innerHTML = signo_peso;
         resultado_envio.innerHTML = resultado;
         total.innerHTML = signo_peso + (resultado + calculoSubtotal());
     });
 }); 
 
+// Calculo el valor del tipo de envío según el id del botón seleccionado
+// Tomo el valor de retorno de la función subtotal 
 function calculoEnvios(id){
     let restSubtotal = (parseInt(calculoSubtotal()));
     if(id == 'premium'){
@@ -70,11 +75,15 @@ function calculoEnvios(id){
 
 function calculoTotal(){
     let restSubtotal = (parseInt(calculoSubtotal()));
+    // Controlo si el envío está vacío
+    // De ser así, el total será igual al subtotal general 
     if (resultado_envio.textContent == '') {
         total.innerHTML = signo_peso + restSubtotal;
     } else {
+        // Realizo el calculo del total según el tipo de envío 
         total.innerHTML = signo_peso + (restSubtotal + calculoEnvios(document.querySelector('input[name="tipoDeEnvio"]:checked').id));
-        envio.innerHTML = signo_peso;
+        peso_envio.innerHTML = signo_peso;
+        // Inserto el resultado del envío, según el cambio en el subtotal de productos 
         resultado_envio.innerHTML = calculoEnvios(document.querySelector('input[name="tipoDeEnvio"]:checked').id);
     };
 }; 
@@ -82,6 +91,7 @@ function calculoTotal(){
 const credito = document.getElementById('credito');
 const bancaria = document.getElementById('bancaria');
 
+// Deshabilito el campo que no corresponde a la selección de tarjeta de credito
 credito.addEventListener('click', () => {
     document.getElementById('cuenta').disabled = true;
     if (credito.checked == true) {
@@ -91,6 +101,7 @@ credito.addEventListener('click', () => {
     };
 });
 
+// Deshabilito los campos que no corresponden a la selección de transferencia bancaria
 bancaria.addEventListener('click', () => {
     document.getElementById('vencimiento').disabled = true;
     document.getElementById('codigo').disabled = true;
@@ -100,6 +111,8 @@ bancaria.addEventListener('click', () => {
     };
 });
 
+// Botón que cierra el modal
+// Guardo el tipo de forma de pago 
 document.getElementById('cerrar').addEventListener('click', () => {
     if (bancaria.checked == true) {
         document.getElementById('seleccion').innerHTML = `Transferencia bancaria`;
@@ -108,6 +121,7 @@ document.getElementById('cerrar').addEventListener('click', () => {
     }
 });
 
+// Botón de finalizar compra 
 document.getElementById('finalizar_compra').addEventListener('click', function (event) {
     event.preventDefault()
     
@@ -115,38 +129,43 @@ document.getElementById('finalizar_compra').addEventListener('click', function (
     const numero = document.getElementById('numero');
     const esquina = document.getElementById('esquina');
 
+    // Controlo que calle, número y esquina esten vacíos
+    // Agrego las clases que marcan los campos como inválidos
     if (calle.value == '' && numero.value == '' && esquina.value == '') {
         document.getElementById('form_envio').classList.add('was-validated');
     };
 
+
     const valor = document.getElementById('valor');
 
+    // Controlo que el valor de la cantidad de productos es menor o igual a 0
+    // Salta la alerta 
     if(valor.value <= 0){
         alert('La cantidad debe ser válida');
     };
 
+
     const input_seleccionar = document.getElementById('seleccionar');
 
+    // Controlo que ninguna forma de pago esta seleccionada
+    // Agrego la clase que aplica el estilo inválido
     if (bancaria.checked == false && credito.checked == false) {
         input_seleccionar.classList.add('is-invalid');
     };
 
-    bancaria.addEventListener('change', () => {
-        if (bancaria.checked != true) {
-            input_seleccionar.classList.add("is-invalid")
-        } else {
-            input_seleccionar.classList.remove("is-invalid")
-        };
+    // Agrupo los botones de la forma de pago
+    // Quito la clase que aplica el estilo inválido
+    document.querySelectorAll('.check-modal').forEach(element => {
+        element.addEventListener('change', () => {
+            if (element.checked != false) {
+                input_seleccionar.classList.remove("is-invalid")
+            };
+        });
     });
+   
 
-    credito.addEventListener('change', () => {
-        if (credito.checked != true) {
-            input_seleccionar.classList.add("is-invalid")
-        } else {
-            input_seleccionar.classList.remove("is-invalid")
-        };
-    });
-
+    // Controlo que la los campos de la forma de pago seleccionada esten vacíos
+    // Agrego la clase que aplica el estilo inválido
     if(credito.checked == true){
         if (document.getElementById('vencimiento').value == '' && document.getElementById('codigo').value == '' && document.getElementById('tarjeta').value == '') {
             (document.getElementById('form_modal').classList.add('was-validated'))
@@ -157,32 +176,24 @@ document.getElementById('finalizar_compra').addEventListener('click', function (
         if (document.getElementById('cuenta').value == '') {
             document.getElementById('form_modal').classList.add('was-validated');
         };
-    }
+    };
 
-    const pre = document.getElementById('premium');
-    const exp = document.getElementById('express');
-    const sta = document.getElementById('standard');
 
+    // Controlo si el lugar donde se inserta el costo del envío está vacío
+    // Agrego la clase que aplica el estilo inválido
     if (envio.textContent == '' && resultado_envio.textContent == '') {
         document.getElementById('validar').classList.add('is-invalid');
     };
 
-    pre.addEventListener('click', () => {
-        if (pre.checked != false) {
+    // Quito la clase que aplica el estilo inválido
+    document.querySelectorAll('.check-envio').forEach(boton => {
+        boton.addEventListener('click', () => {
             document.getElementById('validar').classList.remove('is-invalid');
-        };
-    });
-    exp.addEventListener('click', () => {
-        if (exp.checked != false) {
-            document.getElementById('validar').classList.remove('is-invalid');
-        };
-    });
-    sta.addEventListener('click', () => {
-        if (sta.checked != false) {
-            document.getElementById('validar').classList.remove('is-invalid');
-        };
+        });
     });
 
+    // Controlo que todos los campos no esten vacíos y los botones seleccionados
+    // Muestro un cartel de la compra realizada con éxito
     if((calle.value != '' && numero.value != '' && esquina.value != '') && (document.querySelector('input[name="formaDePago"]:checked')) &&
     ((document.getElementById('vencimiento').value != '' && document.getElementById('codigo').value != '' && document.getElementById('tarjeta').value != '') || (document.getElementById('cuenta').value != '')) && 
     (document.querySelector('input[name="tipoDeEnvio"]:checked')) && (valor.value > 0)){

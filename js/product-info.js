@@ -5,7 +5,8 @@ const opinion = document.getElementById('opinion');
 const boton = document.getElementById('boton');
 const punctuation = document.getElementById('puntuacion');
 
-
+// Traigo el producto y sus comentarios según el id guardado en el local storage 
+// Agrego el HTML del producto, sus comentarios y los productos relacionados
 document.addEventListener('DOMContentLoaded', async () => {
   info_url =  await getJSONData(PRODUCT_INFO_URL + localStorage.getItem('id') + EXT_TYPE);
   comments = await getJSONData(PRODUCT_INFO_COMMENTS_URL + localStorage.getItem('id') + EXT_TYPE);
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   });    
 });
 
+// Función que agrega el HTML del producto seleccionado cuando es llamada
 function getHTML(dato){
   return `
       <div class="mt-4">
@@ -62,6 +64,7 @@ function getHTML(dato){
    `   
 }   
 
+// Función que agrega el HTML de los comentarios cuando es llamada 
 function getCOM(coment){
   return `
   <hr>
@@ -72,6 +75,7 @@ function getCOM(coment){
   `
 }
 
+// Función que agrega el HTML de los productos relacionados cuando es llamada 
 function getPR(dato) {
   return `
     <div class="m-1 border p-2 shadow" onclick="setIDpoductsrelated(${dato.id})">
@@ -81,11 +85,14 @@ function getPR(dato) {
   `
 }
 
+// Guardo en el local storage el id del producto relacionado
+// Dirige a la pagina del producto relacionado seleccionado
 function setIDpoductsrelated(id) {
   localStorage.setItem("id", id);
   window.location = "product-info.html"
 }
 
+// Muestra la puntuación en forma de estrellas
 function addStars(cant) {
 const golden_star = `<span class="fa fa-star checked"></span>`;
 const black_star = `<span class="fa fa-star"></span>`; 
@@ -103,6 +110,7 @@ for (let i = cant; i < 5; i++) {
 return cant_golden + cant_black; 
 };
 
+// Se agrega un comentario al producto 
 boton.addEventListener('click', () => {
   var hoy = new Date();
   var ahora = hoy.toLocaleString();
