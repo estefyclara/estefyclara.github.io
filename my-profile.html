@@ -53,7 +53,14 @@
   </nav>
   <main>
     <div class="container">
-      <h1 class="pt-3">Perfil</h1>
+      <div class="row pt-3">
+        <div class="col-10 py-4">
+          <h1 class="pt-3">Perfil</h1>
+        </div>
+        <div class="col-2">
+          <img src="img/img_perfil.png" class="img-thumbnail" id="imagen">
+        </div>
+      </div>
       <hr>
       <div class="row pt-2">
         <div class="col-md-6 col-sd-12">
@@ -87,6 +94,11 @@
           <input type="text" class="form-control validar" id="telefono" aria-describedby="tel">
           <div class="invalid-feedback" id="tel">Debe ingresar un telefóno de contacto</div>
         </div>
+      </div>
+      <div class="py-3 pb-2">
+        <label form="cargarImagenPerfil" class="fs-5 pb-2">Imagen de perfil</label>
+        <p id="coment"></p>
+        <input type="file" class="form-control" id="cargarImagenPerfil" aria-label="Upload" accept=".jpg, .jpeg, .png">
       </div>
       <hr>
       <button type="button" class="btn btn-success" id="guardarCambios">Guardar cambios</button>
