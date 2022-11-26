@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('primerApellido').value = objeto.primerApellido;
         document.getElementById('segundoApellido').value = objeto.segundoApellido;   
         document.getElementById('telefono').value = objeto.telefono;  
+        document.getElementById('imagen').src = objeto.imagen;
+        if(objeto.imagen){
+            document.getElementById('coment').innerHTML = `Se ha seleccionado una foto de perfil`;
+        }
     };
 });
 
@@ -41,7 +45,12 @@ boton.addEventListener('click', (event) => {
 });
 
 // Guardo los datos en el local storage  
-function guardarDatos(){
+async function guardarDatos(){
+
+    const cargarImagen = document.getElementById('cargarImagenPerfil').files[0];
+    const imagenConvertida = await convertirArchivosAbase64(cargarImagen);
+    document.getElementById('imagen').src = imagenConvertida;
+
 
     var datosPerfil ={};
     datosPerfil.primerNombre = document.getElementById('primerNombre').value;
@@ -50,6 +59,18 @@ function guardarDatos(){
     datosPerfil.segundoApellido = document.getElementById('segundoApellido').value;
     datosPerfil.email = localStorage.getItem('Email');
     datosPerfil.telefono = document.getElementById('telefono').value;
+    datosPerfil.imagen = imagenConvertida;
 
     localStorage.setItem('datosPerfil', JSON.stringify(datosPerfil));
+};
+
+//Convierto la imagen a base64
+function convertirArchivosAbase64(archivo){
+    return new Promise((resolve) => {
+        const lectura  = new FileReader();
+        lectura.readAsDataURL(archivo);
+        lectura.addEventListener('load', () => {
+            resolve(lectura.result);
+        })
+    })
 };
